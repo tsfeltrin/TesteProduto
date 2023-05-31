@@ -22,7 +22,7 @@ public class ProdutoServiceTeste {
         produtoModel.setNome("Produto test 2");
         produtoModel.setQuantidade(0);
 
-        ProdutoModel produtoModelSaved = produtoModel.salva(produtoModel);
+        ProdutoModel produtoModelSaved = produtoService.salvar(produtoModel);
 
         Assertions.assertNotNull(produtoModelSaved.getId());
         Assertions.assertEquals(produtoModel.getNome(), produtoModelSaved.getNome());
@@ -37,14 +37,14 @@ public class ProdutoServiceTeste {
         produtoModel.setNome("Produto test");
         produtoModel.setQuantidade(0);
 
-        ProdutoModel produtoModelSaved = produtoService.salva(produtoService);
+        ProdutoModel produtoModelSaved = produtoService.salvar(produtoModel);
 
         Long idProduto = produtoModelSaved.getId();
 
         produtoService.excluir(idProduto);
 
         Exception exception = Assertions.assertThrows(Exception.class, () -> {
-            ProdutoModel produtoModelDeleted = produtoModel.getById(idProduto);
+            ProdutoModel produtoModelDeleted = produtoService.getById(idProduto);
         });
 
         Assertions.assertEquals("ID nao encontrado", exception.getMessage());
@@ -68,13 +68,13 @@ public class ProdutoServiceTeste {
     void quantidade_obrigatorio() {
 
         ProdutoModel produtoModel = new ProdutoModel();
-        produtoModel.setNome("Produto test");
+        produtoModel.setNome("Produto Teste");
 
         Exception exception = Assertions.assertThrows(Exception.class, () -> {
-            ProdutoModel produtoModelSaved = produtoService.salva(produtoModel);
+            ProdutoModel produtoModelSaved = produtoService.salvar(produtoModel);
         });
 
-        Assertions.assertEquals("Quantidade é obrigatório", exception.getMessage());
+        Assertions.assertEquals("Digite a quantidade do produto.", exception.getMessage());
 
     }
 
@@ -82,13 +82,13 @@ public class ProdutoServiceTeste {
     void nome_obrigatorio() {
 
         ProdutoModel produtoModel = new ProdutoModel();
-        produtoModel.setNome("Produto test2");
+        produtoModel.setNome(null);
 
         Exception exception = Assertions.assertThrows(Exception.class, () -> {
-            ProdutoModel produtoModelSaved = produtoService.salva(produtoModel);
+            ProdutoModel produtoModelSaved = produtoService.salvar(produtoModel);
         });
 
-        Assertions.assertEquals("Nome é obrigatório", exception.getMessage());
+        Assertions.assertEquals("Digite um nome.", exception.getMessage());
 
     }
 
@@ -99,7 +99,7 @@ public class ProdutoServiceTeste {
         produtoModel.setNome("Produto test3");
         produtoModel.setQuantidade(0);
 
-        ProdutoModel produtoModelSaved = produtoService.salva(produtoModel);
+        ProdutoModel produtoModelSaved = produtoService.salvar(produtoModel);
 
         Long idProduto = produtoModelSaved.getId();
 

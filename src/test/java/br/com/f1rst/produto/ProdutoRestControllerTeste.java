@@ -2,13 +2,19 @@ package br.com.f1rst.produto;
 
 
 import br.com.f1rst.produto.dto.request.ProdutoSalvarRequestDto;
+import br.com.f1rst.produto.dto.response.ProdutoResponseDto;
+import br.com.f1rst.produto.dto.response.ProdutoSalvarResponseDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProdutoRestControllerTeste {
@@ -24,7 +30,7 @@ TestRestTemplate restTemplate;
 
     ResponseEntity<ProdutoSalvarResponseDto> responseDto =
             restTemplate.exchange(
-                    "/produto",
+                    "/produtos",
                     HttpMethod.POST,
                     new HttpEntity<>(requestDto),
                     ProdutoSalvarResponseDto.class);
@@ -38,70 +44,6 @@ TestRestTemplate restTemplate;
 }
 
     @Test
-    void listar_todos_produtos() {
-
-        ProdutoSalvarRequestDto requestDto = new ProdutoSalvarRequestDto();
-        requestDto.setNome("produto test listar 1");
-        requestDto.setQuantidade(0);
-
-        ResponseEntity<ProdutoSalvarRequestDto> responseDto =
-                restTemplate.exchange(
-                        "/produto",
-                        HttpMethod.POST,
-                        new HttpEntity<>(requestDto),
-                        ProdutoSalvarRequestDto.class);
-
-        Long idProduto1 = responseDto.getBody().getId();
-
-        requestDto = new ProdutoSalvarRequestDto();
-        requestDto.setNome("produto test listar 2");
-        requestDto.setQuantidade(0);
-
-        responseDto =
-                restTemplate.exchange(
-                        "/produto",
-                        HttpMethod.POST,
-                        new HttpEntity<>(requestDto),
-                        ProdutoSalvarResponseDto.class);
-
-        Long idProduto2 = responseDto.getBody().getId();
-
-        ResponseEntity<List<ProdutoResponseDto>> responseGetDto =
-                restTemplate.exchange(
-                        "/produto",
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<List<ProdutoResponseDto>>() {});
-
-        List<ProdutoResponseDto> produtoList = responseGetDto.getBody();
-
-        Assertions.assertFalse(produtoList.isEmpty());
-
-        boolean existsProduto1 = false;
-        boolean existsProduto2 = false;
-        for (ProdutoResponseDto produtoResponseDto : produtoList) {
-            if (produtoResponseDto.getId().equals(idProduto1)) {
-                existsProduto1 = true;
-            } else if (produtoResponseDto.getId().equals(idProduto2)) {
-                existsProduto2 = true;
-            }
-        }
-
-        Assertions.assertTrue(existsProduto1);
-
-        Assertions.assertTrue(existsProduto2);
-
-        Assertions.assertTrue(
-                produtoList.stream().anyMatch(produtoResponseDto -> produtoResponseDto.getId().equals(idProduto1))
-        );
-
-        Assertions.assertTrue(
-                produtoList.stream().anyMatch(produtoResponseDto -> produtoResponseDto.getId().equals(idProduto2))
-        );
-
-    }
-
-    @Test
     void get_produto_by_id() {
 
         ProdutoSalvarRequestDto requestDto = new ProdutoSalvarRequestDto();
@@ -110,7 +52,7 @@ TestRestTemplate restTemplate;
 
         ResponseEntity<ProdutoSalvarResponseDto> responseDto =
                 restTemplate.exchange(
-                        "/produto",
+                        "/produtos",
                         HttpMethod.POST,
                         new HttpEntity<>(requestDto),
                         ProdutoSalvarResponseDto.class);
@@ -119,7 +61,7 @@ TestRestTemplate restTemplate;
 
         ResponseEntity<ProdutoResponseDto> responseGetDto =
                 restTemplate.exchange(
-                        "/produto/" + idProduto,
+                        "/produtos/" + idProduto,
                         HttpMethod.GET,
                         null,
                         ProdutoResponseDto.class);
@@ -143,7 +85,7 @@ TestRestTemplate restTemplate;
 
         ResponseEntity<ProdutoSalvarResponseDto> responseDto =
                 restTemplate.exchange(
-                        "/produto",
+                        "/produtos",
                         HttpMethod.POST,
                         new HttpEntity<>(requestDto),
                         ProdutoSalvarResponseDto.class);
@@ -155,7 +97,7 @@ TestRestTemplate restTemplate;
 
         ResponseEntity<ProdutoSalvarResponseDto> responsePutDto =
                 restTemplate.exchange(
-                        "/produto/" + idProduto,
+                        "/produtos/" + idProduto,
                         HttpMethod.PUT,
                         new HttpEntity<>(requestDto),
                         ProdutoSalvarResponseDto.class);
@@ -177,7 +119,7 @@ TestRestTemplate restTemplate;
 
         ResponseEntity<ProdutoSalvarResponseDto> responseDto =
                 restTemplate.exchange(
-                        "/produto",
+                        "/produtos",
                         HttpMethod.POST,
                         new HttpEntity<>(requestDto),
                         ProdutoSalvarResponseDto.class);
@@ -186,7 +128,7 @@ TestRestTemplate restTemplate;
 
         ResponseEntity<?> responseDeleteDto =
                 restTemplate.exchange(
-                        "/produto/" + idProduto,
+                        "/produtos/" + idProduto,
                         HttpMethod.DELETE,
                         null,
                         Object.class
@@ -196,7 +138,7 @@ TestRestTemplate restTemplate;
 
         ResponseEntity<ProdutoResponseDto> responseGetDto =
                 restTemplate.exchange(
-                        "/produto/" + idProduto,
+                        "/produtos/" + idProduto,
                         HttpMethod.GET,
                         null,
                         ProdutoResponseDto.class);

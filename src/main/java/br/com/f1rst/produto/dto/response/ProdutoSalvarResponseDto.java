@@ -1,6 +1,6 @@
 package br.com.f1rst.produto.dto.response;
 
-public class ProdutoSavarResponseDto {
+public class ProdutoSalvarResponseDto {
 
     private Long id;
     private String nome;
@@ -10,7 +10,7 @@ public class ProdutoSavarResponseDto {
         return id;
     }
 
-    public ProdutoSavarResponseDto setId(Long id) {
+    public ProdutoSalvarResponseDto setId(Long id) {
         this.id = id;
         return this;
     }
@@ -19,7 +19,7 @@ public class ProdutoSavarResponseDto {
         return nome;
     }
 
-    public ProdutoSavarResponseDto setNome(String nome) {
+    public ProdutoSalvarResponseDto setNome(String nome) {
         this.nome = nome;
         return this;
     }
@@ -28,7 +28,7 @@ public class ProdutoSavarResponseDto {
         return quantidade;
     }
 
-    public ProdutoSavarResponseDto setQuantidade(Integer quantidade) {
+    public ProdutoSalvarResponseDto setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
         return this;
     }

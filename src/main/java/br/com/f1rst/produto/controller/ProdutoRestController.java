@@ -3,7 +3,7 @@ package br.com.f1rst.produto.controller;
 
 import br.com.f1rst.produto.dto.request.ProdutoSalvarRequestDto;
 import br.com.f1rst.produto.dto.response.ProdutoResponseDto;
-import br.com.f1rst.produto.dto.response.ProdutoSavarResponseDto;
+import br.com.f1rst.produto.dto.response.ProdutoSalvarResponseDto;
 import br.com.f1rst.produto.model.ProdutoModel;
 import br.com.f1rst.produto.service.ProdutoService;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/produto")
+@RequestMapping("/produtos")
 public class ProdutoRestController {
 
     final ProdutoService produtoService;
@@ -24,15 +24,15 @@ public class ProdutoRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProdutoSalvarRequestDto create(@RequestBody ProdutoSalvarRequestDto requestDto) throws Exception {
+    public ProdutoSalvarResponseDto create(@RequestBody ProdutoSalvarRequestDto requestDto) throws Exception {
 
         ProdutoModel produtoModel = new ProdutoModel();
         produtoModel.setNome(requestDto.getNome());
         produtoModel.setQuantidade(requestDto.getQuantidade());
 
-        produtoModel = produtoService.salva(produtoModel);
+        produtoModel = produtoService.salvar(produtoModel);
 
-        ProdutoSavarResponseDto responseDto = new ProdutoSavarResponseDto();
+        ProdutoSalvarResponseDto responseDto = new ProdutoSalvarResponseDto();
         responseDto.setId(produtoModel.getId());
         responseDto.setNome(produtoModel.getNome());
         responseDto.setQuantidade(produtoModel.setQuantidade(0));
@@ -76,16 +76,16 @@ public class ProdutoRestController {
 
     @PutMapping("/{idProduto}")
     @ResponseStatus(HttpStatus.OK)
-    public ProdutoSavarResponseDto update(@PathVariable Long idProduto, @RequestBody ProdutoSavarResponseDto requestDto) {
+    public ProdutoSalvarResponseDto update(@PathVariable Long idProduto, @RequestBody ProdutoSalvarRequestDto requestDto) {
 
         ProdutoModel produtoModel = new ProdutoModel();
         produtoModel.setId(idProduto);
         produtoModel.setNome(requestDto.getNome());
         produtoModel.setQuantidade(requestDto.getQuantidade());
 
-        produtoModel = produtoModel.salvar(produtoModel);
+        produtoModel = produtoService.salvar(produtoModel);
 
-        ProdutoSavarResponseDto responseDto = new ProdutoSavarResponseDto();
+        ProdutoSalvarResponseDto responseDto = new ProdutoSalvarResponseDto();
         responseDto.setId(produtoModel.getId());
         responseDto.setNome(produtoModel.getNome());
         responseDto.setQuantidade(produtoModel.getQuantidade());

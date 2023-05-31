@@ -1,6 +1,7 @@
 package br.com.f1rst.produto.service;
 
 import br.com.f1rst.produto.exception.NotFoundException;
+import br.com.f1rst.produto.exception.ValidationException;
 import br.com.f1rst.produto.model.ProdutoModel;
 import br.com.f1rst.produto.repository.ProdutoRepository;
 
@@ -18,15 +19,15 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public ProdutoModel salva(ProdutoModel produtoModel) throws Exception {
+    public ProdutoModel salvar(ProdutoModel produtoModel) throws ValidationException {
         if (produtoModel.getNome() == null) {
-            throw new Exception("Digite um nome. ");
+            throw new ValidationException("Digite um nome.");
         }
         if (produtoModel.getNome().length() > 50){
-            throw new Exception("Digite um nome com menos de 50 caracteres. ");
+            throw new ValidationException("Digite um nome com menos de 50 caracteres. ");
         }
         if (produtoModel.getQuantidade() == null){
-            throw new Exception("Digite a quantidade do produto. ");
+            throw new ValidationException("Digite a quantidade do produto.");
         }
 
         return produtoRepository.save(produtoModel);

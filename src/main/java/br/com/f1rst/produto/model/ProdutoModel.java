@@ -42,23 +42,4 @@ public class ProdutoModel {
         this.quantidade = quantidade;
         return this.getQuantidade();
     }
-
-    public void salvar(ProdutoModel produtoModel){
-
-    }
-
-   /* @Override
-    public boolean equals(Object o){
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        ProdutoModel that = (ProdutoModel) o;
-        return Object.equals(id, that.id) && Object.equals(nome, that.nome) && Object.equals(quantidade, that.quantidade);
-    }
-
-    @Override
-    public int hashCode(){
-        return Objects.hash(id, nome, quantidade);
-    }*/
 }
